@@ -18,7 +18,7 @@ export class NotesApi extends Construct {
     const { table, grantActions } = props;
 
     this.handler = new lambda.Function(this, "handler", {
-      runtime: lambda.Runtime.NODEJS_18_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
       handler: "app.handler",
       // ToDo: find a better way to pass lambda code
       code: lambda.Code.fromAsset(`../backend/dist/${id}`),
