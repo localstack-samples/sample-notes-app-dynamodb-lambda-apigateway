@@ -13,10 +13,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install CDK
+        run: |
+          npm install -g aws-cdk-local aws-cdk
+          cdklocal --version
+
       - name: Deploy Preview
-        uses: LocalStack/setup-localstack@v0.2.2
+        uses: LocalStack/setup-localstack@endpoint_s3_ephemeral
         env:
-          LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
+          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           state-backend: ephemeral
@@ -26,14 +36,15 @@ jobs:
           # Multi line commands are folding for some reason, so we enforce new lines
           # For more predictable usage, use script files
           preview-cmd: |
-            npm install -g aws-cdk-local aws-cdk;
-            make build;
-            make bootstrap;
-            make deploy;
-            make prepare-frontend-local;
-            make build-frontend;
-            make bootstrap-frontend;
-            make deploy-frontend;
+            npm i -g yarn;
+            export NODE_OPTIONS='--tls-min-v1.2 --tls-max-v1.2 --tls-cipher-list="DEFAULT@SECLEVEL=1"'
+            yarn install;
+            yarn build:backend;
+            yarn cdklocal bootstrap;
+            yarn cdklocal deploy;
+            yarn prepare:frontend-local;
+            yarn build:frontend;
+            yarn cdklocal bootstrap --app="node dist/aws-sdk-js-notes-app-frontend.js";
+            yarn cdklocal deploy --app="node dist/aws-sdk-js-notes-app-frontend.js";
             distributionId=$(awslocal cloudfront list-distributions | jq -r '.DistributionList.Items[0].Id');
             echo LS_PREVIEW_URL=$AWS_ENDPOINT_URL/cloudfront/$distributionId/ >> $GITHUB_ENV;
-

@@ -20,24 +20,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Start LocalStack
-        uses: LocalStack/setup-localstack@v0.2.2
+        uses: LocalStack/setup-localstack@v0.2.4
         env:
-          LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
-          DNS_ADDRESS: 0
-          DEBUG: 1
+          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
         with:
           use-pro: 'true'
-
-      - name: Install tflocal
-        run: pip install terraform-local
 
       - name: Install CDK
         run: |
@@ -45,15 +40,7 @@ jobs:
           cdklocal --version
 
       - name: Install dependencies
-        run: yarn
-
-      - name: Prepare Lambda functions
-        run: yarn build:backend
-
-      - name: Bootstrap the infrastructure
-        run: |
-          yarn cdklocal bootstrap
-          sleep 10
+        run: make install
 
       - name: Deploy the infrastructure
         uses: nick-fields/retry@v2
@@ -63,7 +50,13 @@ jobs:
           timeout_seconds: 120
           retry_wait_seconds: 10
           command: |
-            yarn cdklocal deploy
+            make deploy
+
+      - name: Deploy the frontend
+        run: make frontend
+
+      - name: Run the tests
+        run: make test
 
       - name: Send a Slack notification
         if: failure() || github.event_name != 'pull_request'
@@ -85,7 +78,7 @@ jobs:
 
       - name: Upload the Diagnostic Report
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: diagnose.json.gz
           path: ./diagnose.json.gz

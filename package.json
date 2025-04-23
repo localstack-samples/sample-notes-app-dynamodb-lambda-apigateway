@@ -13,12 +13,20 @@
     "prepare:frontend-local": "node packages/scripts/populate-frontend-config.js --local",
     "build:frontend": "cd packages/frontend && yarn build",
     "start:frontend": "cd packages/frontend && yarn start",
-    "serve:frontend": "cd packages/frontend && yarn build && yarn serve"
+    "serve:frontend": "cd packages/frontend && yarn build && yarn serve",
+    "test": "jest -c tests/jest.config.js",
+    "test:watch": "jest -c tests/jest.config.js --watch"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^18.11.18",
+    "axios": "^1.6.5",
     "husky": "^4.2.3",
+    "jest": "^29.7.0",
     "lint-staged": "^10.1.2",
-    "prettier": "2.4.1"
+    "prettier": "2.4.1",
+    "ts-jest": "^29.1.1",
+    "typescript": "~4.9.4"
   },
   "husky": {
     "hooks": {
@@ -28,5 +36,8 @@
   "lint-staged": {
     "*.{ts,js,md}": "prettier --write"
   },
-  "packageManager": "yarn@3.3.1"
+  "packageManager": "yarn@3.3.1",
+  "dependencies": {
+    "glob": "^11.0.1"
+  }
 }

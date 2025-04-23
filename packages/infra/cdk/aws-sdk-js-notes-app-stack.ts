@@ -134,30 +134,35 @@ export class AwsSdkJsNotesAppStack extends Stack {
       bucketName: "notes-app-frontend",
     });
 
-    const distribution = new cloudfront.Distribution(this, "WebsiteDistribution", {
-      defaultRootObject: "index.html",
-      defaultBehavior: {
-        origin: new origins.S3Origin(websiteBucket),
-      },
-      errorResponses: [
-        {
-          httpStatus: 403,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html',
+    const distribution = new cloudfront.Distribution(
+      this,
+      "WebsiteDistribution",
+      {
+        defaultRootObject: "index.html",
+        defaultBehavior: {
+          origin: origins.S3BucketOrigin.withOriginAccessControl(websiteBucket),
         },
-        {
-          httpStatus: 404,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html',
-        },
-      ],
-    });
+        errorResponses: [
+          {
+            httpStatus: 403,
+            responseHttpStatus: 200,
+            responsePagePath: "/index.html",
+          },
+          {
+            httpStatus: 404,
+            responseHttpStatus: 200,
+            responsePagePath: "/index.html",
+          },
+        ],
+      }
+    );
 
     new CfnOutput(this, "FilesBucket", { value: filesBucket.bucketName });
     new CfnOutput(this, "GatewayId", { value: api.restApiId });
     new CfnOutput(this, "IdentityPoolId", { value: identityPool.ref });
     new CfnOutput(this, "Region", { value: this.region });
-    new CfnOutput(this, "FrontendDistributionId", { value: distribution.distributionId });
-
+    new CfnOutput(this, "FrontendDistributionId", {
+      value: distribution.distributionId,
+    });
   }
 }
