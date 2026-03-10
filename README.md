@@ -38,7 +38,7 @@ We are using the following AWS services and their features to build our infrastr
 - [Node.js](https://nodejs.org/en/download/) with `yarn` package manager.
 - A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/getting-started/auth-token/) to activate LocalStack.
 
-Start LocalStack with the `LOCALSTACK_AUTH_TOKEN` pre-configured:
+Start LocalStack for AWS with the `LOCALSTACK_AUTH_TOKEN` pre-configured:
 
 ```shell
 export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
