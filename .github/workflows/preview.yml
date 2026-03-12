@@ -1,4 +1,4 @@
-name: Create PR Preview
+name: Create PR Preview for localstack
 
 on:
   pull_request:
