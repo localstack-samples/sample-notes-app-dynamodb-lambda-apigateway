@@ -32,20 +32,20 @@ We are using the following AWS services and their features to build our infrastr
 
 ## Prerequisites
 
-- A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/getting-started/auth-token/) to activate LocalStack.
-- [`localstack` CLI](https://docs.localstack.cloud/getting-started/installation/#localstack-cli).
-- [AWS CLI](https://docs.localstack.cloud/user-guide/integrations/aws-cli/) with the [`awslocal` wrapper](https://docs.localstack.cloud/user-guide/integrations/aws-cli/#localstack-aws-cli-awslocal).
-- [CDK](https://docs.localstack.cloud/user-guide/integrations/aws-cdk/) with the [`cdklocal`](https://www.npmjs.com/package/aws-cdk-local) wrapper.
+- A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/aws/getting-started/auth-token/) to activate LocalStack.
+- [`lstk` CLI](https://docs.localstack.cloud/aws/developer-tools/running-localstack/lstk/), installed via `npm install -g @localstack/lstk` or `brew install localstack/tap/lstk`.
+- [AWS CLI](https://docs.localstack.cloud/user-guide/integrations/aws-cli/), required by `lstk aws`.
+- [CDK](https://docs.localstack.cloud/user-guide/integrations/aws-cdk/), used via the `lstk cdk` proxy.
 - [Node.js](https://nodejs.org/en/download/) with `yarn` package manager.
 
 Start LocalStack for AWS with the `LOCALSTACK_AUTH_TOKEN` pre-configured:
 
 ```shell
 export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
-EXTRA_CORS_ALLOWED_ORIGINS=* localstack start
+EXTRA_CORS_ALLOWED_ORIGINS=* lstk start
 ```
 
-The `EXTRA_CORS_ALLOWED_ORIGINS` configuration variable allows our website to send requests to the HTTP APIs exposed via the API Gateway. If you prefer running LocalStack in detached mode, you can add the `-d` flag to the `localstack start` command, and use Docker Desktop to view the logs.
+The `EXTRA_CORS_ALLOWED_ORIGINS` configuration variable allows our website to send requests to the HTTP APIs exposed via the API Gateway. If you prefer running LocalStack in detached mode, you can add the `--non-interactive` flag to the `lstk start` command, and use Docker Desktop to view the logs.
 
 ## Instructions
 
@@ -169,6 +169,8 @@ Users can adapt this example workflow to run in their own CI environment. LocalS
 ### Preview environment
 
 This sample further shows off our preview environments feature. Preview environments allow you to deploy your application to a separate environment whenever you want with the right configuration. You can find the workflow in the `.github/workflows/preview.yml` file. You can find more information about preview environments in the [LocalStack documentation](https://docs.localstack.cloud/user-guide/cloud-sandbox/application-previews/).
+
+> This workflow provisions a remote Ephemeral Instance via the `LocalStack/setup-localstack` action, which `lstk` does not support yet. Its automatic `pull_request` trigger has been disabled; it can still be run manually via `workflow_dispatch`.
 
 ## Learn more
 

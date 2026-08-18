@@ -1,8 +1,13 @@
 name: Create PR Preview
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+  # Disabled: `lstk aws`/`lstk cdk` (used via the Makefile targets that preview-cmd
+  # below calls) always target their own locally-managed emulator and ignore
+  # AWS_ENDPOINT_URL, so they can't reach the remote ephemeral instance this
+  # workflow provisions. Re-enable once that's resolved.
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
 
 jobs:
   preview:
@@ -22,11 +27,13 @@ jobs:
           state-backend: ephemeral
           state-action: start
           include-preview: 'true'
+          # TODO(lstk): no install-lstk equivalent in the setup-localstack action yet —
+          # lstk is installed via npm inside preview-cmd instead.
           install-awslocal: 'true'
           # Multi line commands are folding for some reason, so we enforce new lines
           # For more predictable usage, use script files
           preview-cmd: |
-            npm install -g aws-cdk-local aws-cdk;
+            npm install -g @localstack/lstk aws-cdk;
             make build;
             make bootstrap;
             make deploy;
@@ -34,6 +41,6 @@ jobs:
             make build-frontend;
             make bootstrap-frontend;
             make deploy-frontend;
-            distributionId=$(awslocal cloudfront list-distributions | jq -r '.DistributionList.Items[0].Id');
+            distributionId=$(lstk aws cloudfront list-distributions | jq -r '.DistributionList.Items[0].Id');
             echo LS_PREVIEW_URL=$AWS_ENDPOINT_URL/cloudfront/$distributionId/ >> $GITHUB_ENV;
 

@@ -27,22 +27,20 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install lstk
+        run: npm install -g @localstack/lstk
+
       - name: Start LocalStack
-        uses: LocalStack/setup-localstack@main
         env:
           LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
-          DNS_ADDRESS: 0
-          DEBUG: 1
-        with:
-          use-pro: 'true'
-
-      - name: Install tflocal
-        run: pip install terraform-local
+          LOCALSTACK_DNS_ADDRESS: "0"
+          LOCALSTACK_DEBUG: "1"
+        run: lstk start
 
       - name: Install CDK
         run: |
-          npm install -g aws-cdk-local aws-cdk
-          cdklocal --version
+          npm install -g aws-cdk
+          lstk cdk --version
 
       - name: Install dependencies
         run: yarn
