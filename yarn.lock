@@ -202,7 +202,7 @@ __metadata:
   resolution: "@aws-sdk-notes-app/infra@workspace:packages/infra"
   dependencies:
     "@types/node": ^18.11.18
-    aws-cdk: 2.59.0
+    aws-cdk: 2.1133.0
     aws-cdk-lib: 2.59.0
     constructs: 10.1.215
     typescript: ~4.9.4
@@ -2573,17 +2573,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-cdk@npm:2.59.0":
-  version: 2.59.0
-  resolution: "aws-cdk@npm:2.59.0"
-  dependencies:
-    fsevents: 2.3.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
+"aws-cdk@npm:2.1133.0":
+  version: 2.1133.0
+  resolution: "aws-cdk@npm:2.1133.0"
   bin:
     cdk: bin/cdk
-  checksum: 2d405f43d7d1c857ab27e42b861953a3ea4712e57356f556d97382d7ce25749be60896b2a9982d69b60e825dc0a749fc31d31974637c09149a8dea0796d11171
+  checksum: 89525d4e74669a82da3a13386602257780184d200fd4492e3f36ff1e9189118ff3de814e9096bac4b9cc85f9989516e5f94aa71a7e544eb8d544497e127b7f3f
   languageName: node
   linkType: hard
 
@@ -3683,31 +3678,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:2.3.2":
-  version: 2.3.2
-  resolution: "fsevents@npm:2.3.2"
-  dependencies:
-    node-gyp: latest
-  checksum: 97ade64e75091afee5265e6956cb72ba34db7819b4c3e94c431d4be2b19b8bb7a2d4116da417950c3425f17c8fe693d25e20212cac583ac1521ad066b77ae31f
-  conditions: os=darwin
-  languageName: node
-  linkType: hard
-
 "fsevents@npm:~2.3.2":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
   dependencies:
     node-gyp: latest
   checksum: 11e6ea6fea15e42461fc55b4b0e4a0a3c654faa567f1877dbd353f39156f69def97a69936d1746619d656c4b93de2238bf731f6085a03a50cabf287c9d024317
-  conditions: os=darwin
-  languageName: node
-  linkType: hard
-
-"fsevents@patch:fsevents@2.3.2#~builtin<compat/fsevents>":
-  version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
-  dependencies:
-    node-gyp: latest
   conditions: os=darwin
   languageName: node
   linkType: hard

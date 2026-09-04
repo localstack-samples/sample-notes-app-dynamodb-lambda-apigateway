@@ -1,6 +1,7 @@
 name: Create PR Preview
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -22,11 +23,10 @@ jobs:
           state-backend: ephemeral
           state-action: start
           include-preview: 'true'
-          install-awslocal: 'true'
           # Multi line commands are folding for some reason, so we enforce new lines
           # For more predictable usage, use script files
           preview-cmd: |
-            npm install -g aws-cdk-local aws-cdk;
+            npm install -g @localstack/lstk aws-cdk;
             make build;
             make bootstrap;
             make deploy;
@@ -34,6 +34,6 @@ jobs:
             make build-frontend;
             make bootstrap-frontend;
             make deploy-frontend;
-            distributionId=$(awslocal cloudfront list-distributions | jq -r '.DistributionList.Items[0].Id');
+            distributionId=$(lstk aws cloudfront list-distributions | jq -r '.DistributionList.Items[0].Id');
             echo LS_PREVIEW_URL=$AWS_ENDPOINT_URL/cloudfront/$distributionId/ >> $GITHUB_ENV;
 
