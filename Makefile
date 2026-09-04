@@ -51,11 +51,6 @@ stop:
 		@echo
 		lstk stop
 
-## Make sure the LocalStack container is up
-ready:
-		@echo Waiting on the LocalStack container...
-		@lstk status && echo LocalStack is ready to use! || (echo Gave up waiting on LocalStack, exiting. && exit 1)
-
 ## Save the logs in a separate file, since the LS container will only contain the logs of the last sample run.
 logs:
 		@lstk logs > logs.txt
@@ -68,4 +63,4 @@ setup-challenge:
 		make prepare-frontend-local
 		make hotreload
 
-.PHONY: usage install run start stop ready logs
+.PHONY: usage install run start stop logs

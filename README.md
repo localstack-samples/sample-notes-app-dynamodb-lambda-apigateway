@@ -45,7 +45,7 @@ export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
 EXTRA_CORS_ALLOWED_ORIGINS=* lstk start
 ```
 
-The `EXTRA_CORS_ALLOWED_ORIGINS` configuration variable allows our website to send requests to the HTTP APIs exposed via the API Gateway. If you prefer running LocalStack in detached mode, you can add the `--non-interactive` flag to the `lstk start` command, and use Docker Desktop to view the logs.
+The `EXTRA_CORS_ALLOWED_ORIGINS` configuration variable allows our website to send requests to the HTTP APIs exposed via the API Gateway. `lstk` always runs the emulator in detached mode; use `lstk logs` or Docker Desktop to view the logs.
 
 ## Instructions
 
@@ -169,8 +169,6 @@ Users can adapt this example workflow to run in their own CI environment. LocalS
 ### Preview environment
 
 This sample further shows off our preview environments feature. Preview environments allow you to deploy your application to a separate environment whenever you want with the right configuration. You can find the workflow in the `.github/workflows/preview.yml` file. You can find more information about preview environments in the [LocalStack documentation](https://docs.localstack.cloud/user-guide/cloud-sandbox/application-previews/).
-
-> This workflow provisions a remote Ephemeral Instance via the `LocalStack/setup-localstack` action, which `lstk` does not support yet. Its automatic `pull_request` trigger has been disabled; it can still be run manually via `workflow_dispatch`.
 
 ## Learn more
 
