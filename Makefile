@@ -46,6 +46,10 @@ bootstrap-frontend:
 deploy-frontend:
 		yarn cdklocal deploy --app="node dist/aws-sdk-js-notes-app-frontend.js";
 
+## Create, read, update and delete a note through the API
+test:
+		./test.sh
+
 ## Stop the Running LocalStack container
 stop:
 		@echo
@@ -63,4 +67,4 @@ setup-challenge:
 		make prepare-frontend-local
 		make hotreload
 
-.PHONY: usage install run start stop logs
+.PHONY: usage install run start stop logs test
